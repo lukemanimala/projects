@@ -16,6 +16,15 @@
             background-color: #f4f4f4;
         }
 
+        h1 {
+            font-size: 36px;
+            background: linear-gradient(to right, #370818, #9D1408);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         .tabs {
             display: flex;
             gap: 10px;
@@ -34,7 +43,7 @@
         .tab.active {
             background-color: #3F0803;
         }
-        
+
         #card {
             width: 300px;
             height: 150px;
@@ -52,7 +61,6 @@
             transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
         }
 
-
         #card.clicked {
             background-color: #C34E04; /* Answer background color */
             color: white; /* Answer font color */
@@ -60,6 +68,7 @@
     </style>
 </head>
 <body>
+    <h1>Spanish Flash by Luke Manimala</h1>
     <div class="tabs">
         <button class="tab active" data-tab="presente">Presente</button>
         <button class="tab" data-tab="preterito">Pretérito</button>
