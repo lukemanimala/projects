@@ -7134,3 +7134,6 @@ const vocabulary = [
         ]
     }
 ];
+export default vocabulary;
+console.log(vocabulary);
+
