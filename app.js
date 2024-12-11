@@ -1,4 +1,4 @@
-import vocabulary from './vocabulary.js'; // Import the vocabulary
+import vocabulary from './vocabulary.js'; // Import the vocabulary data
 
 let activeTab = 'presente'; // Default tab
 let currentWord = null;
@@ -35,6 +35,11 @@ function updateCard() {
         card.textContent = word.verb;
         card.dataset.translation = word.translation;
     }
+
+    // Reset the card style for a new question
+    card.classList.remove('clicked');
+    card.style.backgroundColor = ''; // Default background
+    card.style.color = ''; // Default font color
 }
 
 // Tab Switching
@@ -55,7 +60,7 @@ card.addEventListener('click', () => {
     } else {
         // Show the translation
         card.textContent = card.dataset.translation;
-        card.style.backgroundColor = '#C34E04'; // Answer color
+        card.classList.add('clicked'); // Apply clicked style
     }
 });
 
