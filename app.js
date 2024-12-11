@@ -13,7 +13,7 @@ function getRandomElement(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
-// Utility Function: Update the card content
+// Utility Function: Update the card content to show a question
 function updateCard() {
     const word = getRandomElement(vocabulary);
     currentWord = word;
@@ -36,11 +36,25 @@ function updateCard() {
         card.dataset.translation = word.translation;
     }
 
-    // Reset the card style for a new question
-    card.classList.remove('clicked');
-    card.style.backgroundColor = ''; // Default background
-    card.style.color = ''; // Default font color
+    // Set card to question state
+    card.style.backgroundColor = 'white'; // Question background
+    card.style.color = 'black'; // Question font color
+    card.dataset.state = 'question'; // Track current state
 }
+
+// Card Interaction: Toggle between question and answer
+card.addEventListener('click', () => {
+    if (card.dataset.state === 'question') {
+        // Show the answer
+        card.textContent = card.dataset.translation;
+        card.style.backgroundColor = '#C34E04'; // Answer background
+        card.style.color = 'white'; // Answer font color
+        card.dataset.state = 'answer'; // Update state
+    } else {
+        // Show a new question
+        updateCard();
+    }
+});
 
 // Tab Switching
 tabs.forEach((tab) => {
@@ -50,18 +64,6 @@ tabs.forEach((tab) => {
         tab.classList.add('active');
         updateCard(); // Update card content based on the new tab
     });
-});
-
-// Card Interaction: Show the translation on click
-card.addEventListener('click', () => {
-    if (card.textContent === card.dataset.translation) {
-        // If already translated, show a new word
-        updateCard();
-    } else {
-        // Show the translation
-        card.textContent = card.dataset.translation;
-        card.classList.add('clicked'); // Apply clicked style
-    }
 });
 
 // Initialize the app
