@@ -24,15 +24,15 @@ with open(input_file, newline='', encoding="utf-8") as csvfile:
             "verb": row["Verb"],
             "translation": row["Translation"],
             "presente": [
-                {"conjugation": sp, "definition": en}
+                {"conjugation": sp.strip(), "definition": en.strip()}
                 for sp, en in zip(presente_spanish, presente_english)
             ],
             "preterito": [
-                {"conjugation": sp, "definition": en}
+                {"conjugation": sp.strip(), "definition": en.strip()}
                 for sp, en in zip(preterito_spanish, preterito_english)
             ],
             "futuro": [
-                {"conjugation": sp, "definition": en}
+                {"conjugation": sp.strip(), "definition": en.strip()}
                 for sp, en in zip(futuro_spanish, futuro_english)
             ]
         })
@@ -41,6 +41,7 @@ with open(input_file, newline='', encoding="utf-8") as csvfile:
 with open(output_file, "w", encoding="utf-8") as jsfile:
     jsfile.write("const vocabulary = ")
     jsfile.write(json.dumps(vocabulary, indent=4, ensure_ascii=False))
-    jsfile.write(";")
+    jsfile.write(";\n\n")
+    jsfile.write("export default vocabulary;\n")
 
-print(f"Vocabulary saved to {output_file}")
+print(f"Vocabulary saved to {output_file} with export default.")
