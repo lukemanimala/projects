@@ -1,6 +1,7 @@
 import vocabulary from './vocabulary.js'; // Import the vocabulary data
+import { infinitives } from './vocabulary.js'; // Import infinitive data
 
-let activeTab = 'presente'; // Default tab
+let activeTab = 'infinitives'; // Default tab set to 'infinitives'
 let currentWord = null;
 let currentConjugation = null;
 
@@ -13,12 +14,19 @@ function getRandomElement(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
-// Utility Function: Update the card content to show a question
+// Utility Function: Update the card content
 function updateCard() {
-    const word = getRandomElement(vocabulary);
-    currentWord = word;
+    let word;
 
-    if (activeTab === 'presente' || activeTab === 'preterito' || activeTab === 'futuro') {
+    if (activeTab === 'infinitives') {
+        word = getRandomElement(infinitives);
+        card.textContent = Math.random() > 0.5 ? word.spanish : word.english;
+        card.dataset.translation =
+            card.textContent === word.spanish ? word.english : word.spanish;
+    } else if (activeTab === 'presente' || activeTab === 'preterito' || activeTab === 'futuro') {
+        word = getRandomElement(vocabulary);
+        currentWord = word;
+
         const conjugations = word[activeTab];
         currentConjugation = getRandomElement(conjugations);
 
@@ -31,30 +39,17 @@ function updateCard() {
             card.dataset.translation = currentConjugation.conjugation;
         }
     } else {
-        // Default to infinitive if the active tab is unrecognized
+        // Fallback to infinitive
+        word = getRandomElement(infinitives);
         card.textContent = word.verb;
         card.dataset.translation = word.translation;
     }
 
-    // Set card to question state
-    card.style.backgroundColor = 'white'; // Question background
-    card.style.color = 'black'; // Question font color
-    card.dataset.state = 'question'; // Track current state
+    // Reset the card style for a new question
+    card.classList.remove('clicked');
+    card.style.backgroundColor = ''; // Default background
+    card.style.color = ''; // Default font color
 }
-
-// Card Interaction: Toggle between question and answer
-card.addEventListener('click', () => {
-    if (card.dataset.state === 'question') {
-        // Show the answer
-        card.textContent = card.dataset.translation;
-        card.style.backgroundColor = '#C34E04'; // Answer background
-        card.style.color = 'white'; // Answer font color
-        card.dataset.state = 'answer'; // Update state
-    } else {
-        // Show a new question
-        updateCard();
-    }
-});
 
 // Tab Switching
 tabs.forEach((tab) => {
@@ -66,5 +61,17 @@ tabs.forEach((tab) => {
     });
 });
 
-// Initialize the app
-updateCard();
+// Card Interaction: Show the translation on click
+card.addEventListener('click', () => {
+    if (card.textContent === card.dataset.translation) {
+        // If already translated, show a new word
+        updateCard();
+    } else {
+        // Show the translation
+        card.textContent = card.dataset.translation;
+        card.classList.add('clicked'); // Apply clicked style
+    }
+});
+
+// Initialize the app by simulating a click on the "infinitives" tab
+document.querySelector(".tab[data-tab='infinitives']").click();
